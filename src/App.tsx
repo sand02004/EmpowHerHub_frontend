@@ -119,7 +119,7 @@ export default function App() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {}
                   <div className="group p-8 rounded-3xl bg-gradient-to-br from-primary/5 to-white border border-primary/10 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all">
-                    <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center text-3xl mb-6">👩‍💻</div>
+
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">For Women</h3>
                     <ul className="space-y-2 text-gray-600 text-sm font-medium mb-6">
                       <li className="flex items-center gap-2">
@@ -149,7 +149,7 @@ export default function App() {
 
                   {}
                   <div className="group p-8 rounded-3xl bg-gradient-to-br from-secondary/5 to-white border border-secondary/10 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all">
-                    <div className="h-14 w-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-3xl mb-6">🎓</div>
+
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">For Mentors</h3>
                     <ul className="space-y-2 text-gray-600 text-sm font-medium mb-6">
                       <li className="flex items-center gap-2">
@@ -179,7 +179,7 @@ export default function App() {
 
                   {}
                   <div className="group p-8 rounded-3xl bg-gradient-to-br from-amber-50 to-white border border-amber-100 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all">
-                    <div className="h-14 w-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl mb-6">🏢</div>
+
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">For Sponsors</h3>
                     <ul className="space-y-2 text-gray-600 text-sm font-medium mb-6">
                       <li className="flex items-center gap-2">
