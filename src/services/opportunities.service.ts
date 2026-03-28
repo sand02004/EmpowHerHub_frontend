@@ -2,10 +2,11 @@ import { api } from './api';
 import type { Opportunity, OpportunityApplication, CreateOpportunityForm } from '../types';
 
 export const opportunitiesService = {
-  // Women: Browse all opportunities
+  
   getAll: () => api.get<Opportunity[]>('/opportunities'),
 
-  // Sponsor: Get own opportunities
+
+  
   getMine: () => api.get<Opportunity[]>('/opportunities/mine'),
 
   // Sponsor: Create opportunity
