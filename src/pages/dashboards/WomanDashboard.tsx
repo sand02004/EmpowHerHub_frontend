@@ -14,13 +14,8 @@ import { useAuth } from '../../hooks/useAuth';
 
 export const WomanDashboard: React.FC = () => {
   const { user } = useAuth();
-  const [activeTest, setActiveTest] = useState(false);
-  const [testAnswers, setTestAnswers] = useState<Record<string, string>>({});
-  const [testSubmitted, setTestSubmitted] = useState(false);
-
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [programs, setPrograms] = useState<MentorshipProgram[]>([]);
-  const [test, setTest] = useState<any>(null);
   const [myApplications, setMyApplications] = useState<OpportunityApplication[]>([]);
   const [mentorshipApplications, setMentorshipApplications] = useState<MentorshipApplication[]>([]);
 
@@ -35,16 +30,14 @@ export const WomanDashboard: React.FC = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [oppsRes, progsRes, testsRes, appsRes, mentorAppsRes] = await Promise.all([
+        const [oppsRes, progsRes, appsRes, mentorAppsRes] = await Promise.all([
           api.get('/opportunities').catch((e) => { console.error('Opps Error:', e); return { data: [] }; }),
           api.get('/mentorship/programs').catch((e) => { console.error('Progs Error:', e); return { data: [] }; }),
-          api.get('/tests').catch((e) => { console.error('Tests Error:', e); return { data: [] }; }),
           api.get(`/opportunities/user-applications/${user?.sub}`).catch((e) => { console.error('Apps Error:', e); return { data: [] }; }),
           api.get(`/mentorship/mentee/${user?.sub}`).catch((e) => { console.error('MentorApps Error:', e); return { data: [] }; })
         ]);
         setOpportunities(oppsRes.data);
         setPrograms(progsRes.data);
-        setTest(testsRes.data && testsRes.data.length > 0 ? testsRes.data[0] : null);
         setMyApplications(appsRes.data);
         setMentorshipApplications(mentorAppsRes.data);
       } catch (err) {
@@ -53,19 +46,6 @@ export const WomanDashboard: React.FC = () => {
     };
     fetchDashboardData();
   }, []);
-
-  const handleSubmitTest = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!test) return;
-    try {
-      const answers = Object.entries(testAnswers).map(([questionId, answerOptionId]) => ({ questionId, answerOptionId: answerOptionId as string }));
-      await api.post(`/tests/${test.id}/submit`, { answers });
-      setTestSubmitted(true);
-      setActiveTest(false);
-    } catch (err) {
-      console.error('Failed to submit test', err);
-    }
-  };
 
   const handleApplyOpportunity = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,9 +99,6 @@ export const WomanDashboard: React.FC = () => {
     setMentorMessage('');
   };
 
-  const initials = (firstName: string = '', lastName: string = '') =>
-    `${firstName?.[0] || '?'}${lastName?.[0] || '?'}`.toUpperCase();
-
   return (
     <div className="space-y-8">
       {/* Hero Banner */}
@@ -133,59 +110,10 @@ export const WomanDashboard: React.FC = () => {
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label="My Applications" value={myApplications.length} icon={FileText} accent="primary" />
-        <StatCard label="Tests Completed" value={testSubmitted ? 1 : 0} icon={BookOpen} accent="secondary" />
+        <StatCard label="Tests Completed" value={1} icon={BookOpen} accent="secondary" />
         <StatCard label="Active Mentorships" value={0} icon={Users} accent="amber" />
         <StatCard label="New Messages" value={0} icon={CheckCircle} accent="rose" />
       </div>
-
-      {/* Skills Test */}
-      <section className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
-        <div className="px-6 py-5 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-          <div>
-            <h2 className="font-extrabold text-gray-900 text-sm uppercase tracking-widest">Skills Assessment</h2>
-            {test && <p className="text-xs text-gray-400 mt-0.5">{test.title} — Min. Pass: {test.passingScore}%</p>}
-          </div>
-          {testSubmitted ? (
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
-              <CheckCircle className="h-3.5 w-3.5" /> Submitted
-            </span>
-          ) : (
-            <Button onClick={() => setActiveTest(!activeTest)} variant={activeTest ? 'outline' : 'primary'}>
-              {activeTest ? 'Collapse' : 'Take Test Now'}
-            </Button>
-          )}
-        </div>
-
-        {activeTest && test && (
-          <form onSubmit={handleSubmitTest} className="p-6 space-y-6">
-            {test.questions?.map((q: any, qi: number) => (
-              <div key={q.id} className="p-5 bg-gray-50 rounded-xl border border-gray-200">
-                <p className="font-bold text-gray-900 mb-4">{qi + 1}. {q.content}</p>
-                <div className="space-y-2.5">
-                  {q.answerOptions?.map((opt: any) => (
-                    <label
-                      key={opt.id}
-                      className="flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-primary transition-colors"
-                    >
-                      <input
-                        type="radio"
-                        name={q.id}
-                        value={opt.id}
-                        className="h-4 w-4 text-primary"
-                        onChange={() => setTestAnswers({ ...testAnswers, [q.id]: opt.id })}
-                      />
-                      <span className="text-sm font-medium text-gray-700">{opt.content}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <Button type="submit" variant="primary" className="w-full py-3 text-base font-bold shadow-md">
-              Submit Answers
-            </Button>
-          </form>
-        )}
-      </section>
 
       {/* Available Opportunities */}
       <section className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">

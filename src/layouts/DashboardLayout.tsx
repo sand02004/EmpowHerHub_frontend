@@ -3,6 +3,8 @@ import { Topbar } from '../components/navigation/Topbar';
 import { useAuth } from '../hooks/useAuth';
 import { Outlet } from 'react-router-dom';
 import { MandatoryAssessment } from '../features/onboarding/MandatoryAssessment';
+import { CompleteProfile } from '../features/onboarding/CompleteProfile';
+import { PendingApproval } from '../features/onboarding/PendingApproval';
 
 export const DashboardLayout = () => {
   const { role, logout, status, assessmentPassed } = useAuth();
@@ -38,6 +40,14 @@ export const DashboardLayout = () => {
           </div>
         </div>
       );
+    }
+
+    if (status === 'PENDING') {
+      return <CompleteProfile />;
+    }
+
+    if (status === 'IN_REVIEW') {
+      return <PendingApproval />;
     }
 
     // Only women take the mandatory skills assessment

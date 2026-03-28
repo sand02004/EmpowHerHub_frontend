@@ -4,11 +4,11 @@ import { api } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 import type { Role } from '../../types';
 
-const roleConfig: Record<NonNullable<Role>, { label: string; badge: string; icon: string }> = {
-  woman:   { label: 'Women Portal',   badge: 'bg-violet-100 text-violet-700 border border-violet-200', icon: '👩‍💻' },
-  mentor:  { label: 'Mentor Portal',  badge: 'bg-teal-100 text-teal-700 border border-teal-200',       icon: '🎓'  },
-  sponsor: { label: 'Sponsor Portal', badge: 'bg-amber-100 text-amber-700 border border-amber-200',    icon: '🏢'  },
-  admin:   { label: 'Admin Portal',   badge: 'bg-gray-100 text-gray-700 border border-gray-200',       icon: '🛡️'  },
+const roleConfig: Record<NonNullable<Role>, { label: string; badge: string }> = {
+  woman:   { label: 'Women Portal',   badge: 'bg-violet-100 text-violet-700 border border-violet-200' },
+  mentor:  { label: 'Mentor Portal',  badge: 'bg-teal-100 text-teal-700 border border-teal-200'       },
+  sponsor: { label: 'Sponsor Portal', badge: 'bg-amber-100 text-amber-700 border border-amber-200'    },
+  admin:   { label: 'Admin Portal',   badge: 'bg-gray-100 text-gray-700 border border-gray-200'       },
 };
 
 export const Topbar = ({ role, onLogout }: { role: Role; onLogout: () => void }) => {
@@ -47,7 +47,6 @@ export const Topbar = ({ role, onLogout }: { role: Role; onLogout: () => void })
       <div className="flex items-center gap-3">
         {cfg && (
           <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${cfg.badge}`}>
-            <span>{cfg.icon}</span>
             {cfg.label}
           </span>
         )}

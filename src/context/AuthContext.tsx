@@ -11,8 +11,13 @@ interface AuthContextValue {
   status: string;
   assessmentPassed: boolean;
   isAuthenticated: boolean;
+  isDemo: boolean;
   login: (role: Role, jwtToken?: string) => void;
   logout: () => void;
+  submitProfileForReview: () => void;
+  simulateAdminApproval: () => void;
+  markAssessmentPassed: () => void;
+  markAssessmentFailed: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -23,6 +28,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
   const [token, setToken] = useState<string | null>(
     () => localStorage.getItem('token'),
+  );
+  const [statusOverride, setStatusOverride] = useState<string | null>(null);
+  const [assessmentOverride, setAssessmentOverride] = useState<boolean>(
+    () => localStorage.getItem('empowher_assessment') === 'true'
   );
 
   /* ── login ─────────────────────────────────────────────────────────────── */
@@ -39,12 +48,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   /* ── logout ─────────────────────────────────────────────────────────────── */
   const logout = useCallback(() => {
-    ['empowher_role', 'token'].forEach((k) =>
+    ['empowher_role', 'token', 'empowher_assessment'].forEach((k) =>
       localStorage.removeItem(k),
     );
     setRole(null);
     setToken(null);
+    setStatusOverride(null);
+    setAssessmentOverride(false);
   }, []);
+
+  const submitProfileForReview = useCallback(() => setStatusOverride('IN_REVIEW'), []);
+  const simulateAdminApproval = useCallback(() => setStatusOverride('APPROVED'), []);
+  const markAssessmentPassed = useCallback(() => {
+    localStorage.setItem('empowher_assessment', 'true');
+    setAssessmentOverride(true);
+  }, []);
+  const markAssessmentFailed = useCallback(() => logout(), [logout]);
 
   /* ── JWT decode ─────────────────────────────────────────────────────────── */
   const decoded = useMemo(() => {
@@ -60,11 +79,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     role: decoded?.role || role,
     token,
     user: decoded,
-    status: decoded?.status || 'PENDING',
-    assessmentPassed: !!decoded?.assessmentPassed,
+    status: statusOverride || decoded?.status || 'PENDING',
+    assessmentPassed: assessmentOverride || !!decoded?.assessmentPassed,
     isAuthenticated: !!token,
+    isDemo: false,
     login,
     logout,
+    submitProfileForReview,
+    simulateAdminApproval,
+    markAssessmentPassed,
+    markAssessmentFailed,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
