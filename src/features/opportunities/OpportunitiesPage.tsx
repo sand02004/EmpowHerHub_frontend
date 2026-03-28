@@ -9,7 +9,7 @@ import { Modal } from '../../components/ui/Modal';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { StatCard } from '../../components/ui/StatCard';
 import { useAuth } from '../../hooks/useAuth';
-import type { Opportunity, OpportunityApplication, CreateOpportunityForm, OpportunityType } from '../../types';
+import type { CreateOpportunityForm, OpportunityType } from '../../types';
 import { api } from '../../services/api';
 import { jwtDecode } from 'jwt-decode';
 
@@ -41,7 +41,6 @@ const WomanOpportunities: React.FC = () => {
   const [applications, setApplications] = useState<any[]>([]);
   const [applyModal, setApplyModal] = useState<{ open: boolean; opportunity: any | null; }>({ open: false, opportunity: null });
   const [coverLetter, setCoverLetter] = useState('');
-  const [attachment, setAttachment] = useState<File | null>(null);
   const [errors, setErrors] = useState<{ coverLetter?: string }>({});
 
   useEffect(() => {
@@ -88,7 +87,6 @@ const WomanOpportunities: React.FC = () => {
     setApplyModal({ open: false, opportunity: null });
     setCoverLetter('');
     setErrors({});
-    setAttachment(null);
   };
 
   return (
@@ -225,7 +223,6 @@ const WomanOpportunities: React.FC = () => {
             <input
               type="file"
               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-colors"
-              onChange={(e) => setAttachment(e.target.files?.[0] ?? null)}
             />
           </div>
           <div className="flex justify-end gap-3 pt-2">

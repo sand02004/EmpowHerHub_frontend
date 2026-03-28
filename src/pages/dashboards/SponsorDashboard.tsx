@@ -47,7 +47,7 @@ export const SponsorDashboard: React.FC = () => {
           const mappedApp: OpportunityApplication = {
             id: app.id,
             opportunityId: app.opportunityId,
-            applicantId: app.applicantId,
+            userId: app.applicantId,
             applicantName: `${app.applicant.firstName} ${app.applicant.lastName}`,
             applicantInitials: `${app.applicant.firstName[0]}${app.applicant.lastName?.[0] || ''}`,
             status: app.status,

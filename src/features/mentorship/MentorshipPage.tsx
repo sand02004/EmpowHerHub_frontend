@@ -7,7 +7,6 @@ import { Modal } from '../../components/ui/Modal';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { StatCard } from '../../components/ui/StatCard';
 import { useAuth } from '../../hooks/useAuth';
-import type { MentorshipApplication, Mentorship, MentorProfile } from '../../types';
 
 import { api } from '../../services/api';
 import { jwtDecode } from 'jwt-decode';

@@ -1,9 +1,6 @@
-import React from 'react';
-import { DashboardLayout } from '../layouts/DashboardLayout';
-
 export const Dashboard = () => {
   return (
-    <DashboardLayout>
+    <>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {['Total Mentors', 'Active Applications', 'Opportunities', 'Tests Taken'].map((stat, i) => (
           <div key={i} className="bg-white overflow-hidden shadow-sm rounded-xl border border-gray-100 p-6 transition-all hover:shadow-md">
@@ -22,6 +19,6 @@ export const Dashboard = () => {
           <p className="text-sm mt-1">Your recent platform activity will appear here.</p>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };

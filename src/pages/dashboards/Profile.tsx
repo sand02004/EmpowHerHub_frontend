@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, Briefcase, GraduationCap, Globe, MapPin, Target, User } from 'lucide-react';
+import { Upload, Briefcase, GraduationCap, Target, User } from 'lucide-react';
 import { Input } from '../../components/ui/Input';
 import { Textarea } from '../../components/ui/Textarea';
 import { Button } from '../../components/ui/Button';

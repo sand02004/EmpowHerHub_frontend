@@ -6,7 +6,7 @@ import { Badge } from '../../components/ui/Badge';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { Modal } from '../../components/ui/Modal';
 import { Textarea } from '../../components/ui/Textarea';
-import type { Opportunity, MentorProfile, OpportunityApplication, MentorshipApplication, MentorshipProgram } from '../../types';
+import type { Opportunity, OpportunityApplication, MentorshipApplication, MentorshipProgram } from '../../types';
 import { api } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
 
