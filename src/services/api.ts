@@ -12,7 +12,11 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    if (token && token !== 'DEMO') {
+    
+    // Do not send the header if we're hitting auth routes (login/register)
+    const isAuthRoute = config.url?.includes('auth/login') || config.url?.includes('auth/register');
+    
+    if (token && token !== 'DEMO' && !isAuthRoute) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
